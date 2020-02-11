@@ -1,0 +1,60 @@
+{
+  "log": {
+    "loglevel": "debug",
+    "access": "",
+    "error": ""
+  },
+  "inbounds": [
+    {
+      "tag": "input-shadowsocks",
+      "protocol": "shadowsocks",
+      "port": 1024,
+      "settings": {
+        "method": "aes-256-cfb",
+        "password": "password"
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "output-vmess",
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "hkbgurtcloud.com",
+            "port": 443,
+            "users": [
+              {
+                "id": "1741-6d72-4a93-876e-70b983765e9b",
+                "alterId": 64
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "tls",
+	"wsSettings":{
+	 "path":"/ws",
+	 "host":"hk-b2.yogurtcloud.com"
+	}
+      }
+    }
+  ],
+  "routing": {
+    "strategy": "rules",
+    "settings": {
+      "rules": [
+        {
+          "type": "field",
+          "inboundTag": [
+            "input-shadowsocks"
+          ],
+          "outboundTag": "output-vmess"
+        }
+      ]
+    }
+  }
+}

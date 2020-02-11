@@ -1,0 +1,55 @@
+{
+  "log": {
+    "loglevel": "debug",
+    "access": "log/access.log",
+    "error": "log/error.log"
+  },
+  "inbounds": [
+    {
+      "tag": "input-shadowsocks",
+      "protocol": "shadowsocks",
+      "port": 1024,
+      "settings": {
+        "method": "aes-128-gcm",
+        "password": "password"
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "output-vmess",
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "hk-loud.com",
+            "port": 80,
+            "users": [
+              {
+                "id": "41b41-6d72-4a93-876e-70b983765e9b",
+                "alterId": 64
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp"
+      }
+    }
+  ],
+  "routing": {
+    "strategy": "rules",
+    "settings": {
+      "rules": [
+        {
+          "type": "field",
+          "inboundTag": [
+            "input-shadowsocks"
+          ],
+          "outboundTag": "output-vmess"
+        }
+      ]
+    }
+  }
+}
